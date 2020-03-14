@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "es5",
+    "lib": ["es2018", "dom"]
+  }
+}
