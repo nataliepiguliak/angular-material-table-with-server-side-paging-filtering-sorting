@@ -1,0 +1,55 @@
+<ng-container>
+  <h2>Recipes</h2>
+  <mat-form-field appearance="standard">
+    <input
+      matInput
+      placeholder="Search recipes"
+      [(ngModel)]="recipesFilter"
+      (ngModelChange)="recipesFilterChange()"
+    />
+  </mat-form-field>
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+  <mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="name"
+    matSortDirection="asc"
+    matSortDisableClear
+  >
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell class="mat-column-name" *matCellDef="let recipe">{{
+        recipe.name
+      }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ingredients">
+      <mat-header-cell *matHeaderCellDef>Ingredients</mat-header-cell>
+      <mat-cell *matCellDef="let recipe">
+        <ul>
+          <li *ngFor="let ingredient of recipe.ingredients">
+            {{ ingredient.name }} - {{ ingredient.quantity }}
+          </li>
+        </ul>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="steps">
+      <mat-header-cell *matHeaderCellDef>Steps</mat-header-cell>
+      <mat-cell *matCellDef="let recipe">
+        <ol>
+          <li *ngFor="let step of recipe.steps">
+            {{ step }}
+          </li>
+        </ol>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="gridColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: gridColumns"></mat-row>
+  </mat-table>
+  <mat-paginator
+    [length]="dataSource.total$ | async"
+    [pageSize]="3"
+    [pageSizeOptions]="[3, 5, 10]"
+  ></mat-paginator>
+</ng-container>
